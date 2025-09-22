@@ -1,0 +1,72 @@
+version: "3.9"
+
+# =========================
+# DOCKER COMPOSE DEL PROYECTO INVENTARIO
+# Contiene 3 servicios:
+# - db (PostgreSQL)
+# - backend (Laravel con PHP 8.2 + Composer)
+# - frontend (Vue + Vite con Node + pnpm)
+# =========================
+
+services:
+  # -------------------------
+  # Base de datos PostgreSQL
+  # -------------------------
+  db:
+    image: postgres:16                  # Imagen oficial de PostgreSQL v16
+    container_name: inventario_db       # Nombre del contenedor (puedes cambiarlo)
+    restart: always                     # Se reinicia automáticamente si se apaga
+    environment:
+      POSTGRES_USER: postgres           # Usuario de la BD
+      POSTGRES_PASSWORD: "0000"           # Contraseña
+      POSTGRES_DB: inventario           # Base de datos por defecto
+    ports:
+      - "5432:5432"                     # Puerto del host:puerto del contenedor
+    volumes:
+      - inventario_data:/var/lib/postgresql/data  # Guarda los datos aunque apagues Docker
+
+  # -------------------------
+  # Backend Laravel (API)
+  # -------------------------
+  backend:
+    build:
+      context: ./api                    # Carpeta donde está tu proyecto Laravel
+      dockerfile: Stephany.Dockerfile            # Dockerfile que haremos en /api
+    container_name: inventario_backend
+    restart: always
+    volumes:
+      - ./api:/var/www/html             # Monta tu código en el contenedor
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: db                       
+      DB_PORT: 5432
+      DB_DATABASE: inventario
+      DB_USERNAME: postgres
+      DB_PASSWORD: "0000" 
+    ports:
+      - "8000:8000"                     # Laravel disponible en http://localhost:8000
+    depends_on:
+      - db                              # Espera a que la DB esté arriba antes de iniciar
+    command: php artisan serve --host=0.0.0.0 --port=8000  # Arranca el servidor de Laravel
+
+  # -------------------------
+  # Frontend Vue (Vite)
+  # -------------------------
+  frontend:
+    build:
+      context: ./admin                  # Carpeta del frontend Vue
+      dockerfile: Stephany.Dockerfile        # Dockerfile que haremos en /admin
+    container_name: inventario_frontend
+    restart: always
+    volumes:
+      - ./admin:/app                    # Monta tu código en el contenedor
+      - /app/node_modules 
+    ports:
+      - "5173:5173"                     # Vite disponible en http://localhost:5173
+    command: pnpm run dev --host 0.0.0.0 # Arranca servidor de desarrollo de Vite
+
+# -------------------------
+# Volúmenes (almacenamiento persistente)
+# -------------------------
+volumes:
+  inventario_data:                      # Guarda los datos de PostgreSQL

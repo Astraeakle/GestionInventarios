@@ -1,0 +1,13 @@
+# Laravel
+/vendor
+/node_modules
+.env
+/storage/*.key
+/storage/*.log
+/storage/framework/cache
+/storage/framework/sessions
+/storage/framework/views
+
+# Vue / Node
+/node_modules
+/dist
