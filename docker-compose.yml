@@ -24,6 +24,8 @@ services:
       - "5432:5432"                     # Puerto del host:puerto del contenedor
     volumes:
       - inventario_data:/var/lib/postgresql/data  # Guarda los datos aunque apagues Docker
+      - ./inventario_backup.sql:/docker-entrypoint-initdb.d/inventario_backup.sql
+
 
   # -------------------------
   # Backend Laravel (API)
