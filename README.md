@@ -1,45 +1,81 @@
-# Proyecto Inventario
+# 📦 Proyecto Inventario
 
-Este repositorio contiene un proyecto completo con:
+Este repositorio contiene un sistema completo de gestión de inventario, compuesto por:
 
-- Backend en Laravel (PHP 8.2)
-- Base de datos PostgreSQL 16
-- Frontend en Vue 3 + Vite + pnpm
+* **Backend** → Laravel (PHP 8.2)
+* **Base de datos** → PostgreSQL 16
+* **Frontend** → Vue 3 + Vite + pnpm
 
-El proyecto está dockerizado para facilitar la instalación y ejecución.
-
----
-
-## Estructura del proyecto
-
-- `/api` - Código fuente backend Laravel
-- `/admin` - Código fuente frontend Vue
-- `docker-compose.yml` - Configuración de Docker Compose
-- `inventario_backup.sql` - Backup para cargar la base de datos inicial
+El proyecto está completamente **dockerizado** para facilitar la instalación y ejecución en cualquier máquina sin configuraciones complicadas.
 
 ---
 
-## Requisitos previos
+## 📂 Estructura del proyecto
 
-- Tener instalado Docker y Docker Compose (v2+)
-- Tener instalado pnpm (opcional para desarrollo local frontend)
+* `/api` → Código fuente del **backend** (Laravel)
+* `/admin` → Código fuente del **frontend** (Vue 3 + Vite)
+* `docker-compose.yml` → Configuración principal de Docker Compose
+* `inventario_backup.sql` → Backup que inicializa la base de datos automáticamente al primer arranque
 
 ---
 
-## Cómo levantar el proyecto con Docker
+## ✅ Requisitos previos
 
-1. Clona este repositorio:
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/) (con **Docker Compose v2**)
+* (Opcional) [pnpm](https://pnpm.io/) para desarrollo local del frontend
+
+---
+
+## 🚀 Cómo levantar el proyecto con Docker
+
+1. **Clonar el repositorio**
 
    ```bash
    git clone https://github.com/tu_usuario/tu_repositorio.git
    cd tu_repositorio
+   ```
 
-2. Levantar docker:
-   
+2. **Levantar la aplicación con Docker**
+
    ```bash
    docker compose up -d --build
+   ```
 
-4. Importar BD:
-   
-   ```bash
-   docker exec -i inventario_db psql -U postgres -d inventario < inventario_backup.sql
+   🔹 Esto construirá las imágenes, levantará los 3 servicios y restaurará automáticamente el backup de la base de datos (`inventario_backup.sql`).
+
+3. **Acceder a la aplicación**
+
+   * **Frontend (Vue)** → [http://localhost:5173](http://localhost:5173)
+   * **Backend API (Laravel)** → [http://localhost:8000](http://localhost:8000)
+   * **Base de datos (Postgres)** → `localhost:5432` (usuario: `postgres`, pass: `0000`)
+
+---
+
+## 🛠️ Comandos útiles
+
+* **Ver logs de un servicio**
+
+  ```bash
+  docker logs inventario_backend   # Laravel
+  docker logs inventario_frontend  # Vue
+  docker logs inventario_db        # PostgreSQL
+  ```
+
+* **Entrar al contenedor backend (Laravel)**
+
+  ```bash
+  docker exec -it inventario_backend bash
+  ```
+
+* **Ejecutar migraciones manualmente (si hicieras cambios futuros)**
+
+  ```bash
+  php artisan migrate
+  ```
+
+* **Reiniciar todo desde cero (incluyendo la BD)**
+
+  ```bash
+  docker compose down -v
+  docker compose up -d --build
+  ```
