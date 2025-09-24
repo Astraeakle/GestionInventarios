@@ -45,6 +45,7 @@ services:
       DB_DATABASE: inventario
       DB_USERNAME: postgres
       DB_PASSWORD: "0000" 
+      CHOKIDAR_USEPOLLING: "true"
     ports:
       - "8000:8000"                     # Laravel disponible en http://localhost:8000
     depends_on:
@@ -63,6 +64,8 @@ services:
     volumes:
       - ./admin:/app                    # Monta tu código en el contenedor
       - /app/node_modules 
+    environment:
+        CHOKIDAR_USEPOLLING: "true"
     ports:
       - "5173:5173"                     # Vite disponible en http://localhost:5173
     command: pnpm run dev --host 0.0.0.0 # Arranca servidor de desarrollo de Vite
