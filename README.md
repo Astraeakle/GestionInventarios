@@ -21,7 +21,7 @@ El proyecto está completamente **dockerizado** para facilitar la instalación y
 
 ## ✅ Requisitos previos
 
-* [Docker Desktop](https://www.docker.com/products/docker-desktop/) (con **Docker Compose v2**)
+* [Docker Desktop]([https://www.docker.com/products/docker-desktop/](https://www.docker.com)) (con **Docker Compose v2**)
 * (Opcional) [pnpm](https://pnpm.io/) para desarrollo local del frontend
 
 ---
@@ -31,8 +31,8 @@ El proyecto está completamente **dockerizado** para facilitar la instalación y
 1. **Clonar el repositorio**
 
    ```bash
-   git clone https://github.com/tu_usuario/tu_repositorio.git
-   cd tu_repositorio
+   git clone https://github.com/Astraeakle/GestionInventarios.git
+   cd GestionInventarios
    ```
 
 2. **Levantar la aplicación con Docker**
