@@ -113,94 +113,46 @@
 </script>
 <template>
     <div>
-        <VCard title="🚚 Transports">
+        <VCard title="🚚 Transportes">
             <VCardText>
                 <VRow class="">
                     <VCol cols="10">
                         <VRow>
                             <VCol cols="3">
-                                <VTextField
-                                    placeholder="Search N° Transport"
-                                    density="compact"
-                                    class="me-3"
-                                    v-model="searchQuery"
-                                    @keyup.enter="list"
-                                />
+                                <VTextField placeholder="Búsqueda N° Transporte" density="compact" class="me-3"
+                                    v-model="searchQuery" @keyup.enter="list" />
                             </VCol>
                             <VCol cols="3">
-                                <VSelect
-                                    :items="warehouses"
-                                    item-title="name"
-                                    item-value="id"
-                                    placeholder="Select"
-                                    v-model="warehouse_start_id"
-                                    label="Almacen de atención"
-                                />
+                                <VSelect :items="warehouses" item-title="name" item-value="id" placeholder="Select"
+                                    v-model="warehouse_start_id" label="Almacen de atención" />
                             </VCol>
                             <VCol cols="3">
-                                <VSelect
-                                    :items="warehouses"
-                                    item-title="name"
-                                    item-value="id"
-                                    placeholder="Select"
-                                    v-model="warehouse_end_id"
-                                    label="Almacenen de entrega"
-                                />
+                                <VSelect :items="warehouses" item-title="name" item-value="id" placeholder="Select"
+                                    v-model="warehouse_end_id" label="Almacenen de entrega" />
                             </VCol>
 
                             <VCol cols="3">
-                                <VSelect
-                                :items="units"
-                                item-title="name"
-                                item-value="id"
-                                placeholder="Select"
-                                v-model="unit_id"
-                                label="Unidades"
-                                />
+                                <VSelect :items="units" item-title="name" item-value="id" placeholder="Select"
+                                    v-model="unit_id" label="Unidades" />
                             </VCol>
 
-                            
+
                             <VCol cols="3">
-                                <AppDateTimePicker
-                                    v-model="range_date"
-                                    label="Rango de fecha"
-                                    placeholder="Select date"
-                                    :config="{ mode: 'range' }"
-                                />
+                                <AppDateTimePicker v-model="range_date" label="Rango de fecha" placeholder="Select date"
+                                    :config="{ mode: 'range' }" />
                             </VCol>
                             <VCol cols="3">
-                                <VTextField
-                                    placeholder="Search Product"
-                                    density="compact"
-                                    class="me-3"
-                                    v-model="search_product"
-                                    @keyup.enter="list"
-                                />
+                                <VTextField placeholder="Search Product" density="compact" class="me-3"
+                                    v-model="search_product" @keyup.enter="list" />
                             </VCol>
                             <VCol cols="2">
-                                <VBtn
-                                    color="info"
-                                    class="mx-1"
-                                    prepend-icon="ri-search-2-line"
-                                    @click="list()"
-                                >
-                                    <VTooltip
-                                        activator="parent"
-                                        location="top"
-                                    >
+                                <VBtn color="info" class="mx-1" prepend-icon="ri-search-2-line" @click="list()">
+                                    <VTooltip activator="parent" location="top">
                                         Buscar
                                     </VTooltip>
                                 </VBtn>
-                                <VBtn
-                                    color="secondary"
-                                    class="mx-1"
-                                    prepend-icon="ri-restart-line"
-                                    @click="reset()"
-                                >
-                                    <VTooltip
-                                        activator="parent"
-                                        location="top"
-                                    >
+                                <VBtn color="secondary" class="mx-1" prepend-icon="ri-restart-line" @click="reset()">
+                                    <VTooltip activator="parent" location="top">
                                         Limpieza
                                     </VTooltip>
                                 </VBtn>
@@ -210,111 +162,92 @@
                     <VCol cols="2" class="text-end">
                         <VBtn v-if="isPermission('register_transport')" @click="router.push({name: 'transport-add'})">
                             Add Transport
-                            <VIcon
-                                end
-                                icon="ri-add-line"
-                            />
+                            <VIcon end icon="ri-add-line" />
                         </VBtn>
                     </VCol>
                 </VRow>
             </VCardText>
-            
+
             <VTable>
-               <thead>
-                <tr>
-                    <th class="text-uppercase">
-                        N° Transport
-                    </th>
-                    <th class="text-uppercase">
-                        Solicitante
-                    </th>
-                    <th class="text-uppercase">
-                        Almacen de atención
-                    </th>
-                    <th class="text-uppercase">
-                        Almacen de entrega
-                    </th>
-                    <th class="text-uppercase">
-                        Fecha de emisión
-                    </th>
-                    <th class="text-uppercase">
-                        Estado de E.
-                    </th>
-                    <th class="text-uppercase">
-                        Action
-                    </th>
-                </tr>
-               </thead>
+                <thead>
+                    <tr>
+                        <th class="text-uppercase">
+                            N° Transport
+                        </th>
+                        <th class="text-uppercase">
+                            Solicitante
+                        </th>
+                        <th class="text-uppercase">
+                            Almacen de atención
+                        </th>
+                        <th class="text-uppercase">
+                            Almacen de entrega
+                        </th>
+                        <th class="text-uppercase">
+                            Fecha de emisión
+                        </th>
+                        <th class="text-uppercase">
+                            Estado de E.
+                        </th>
+                        <th class="text-uppercase">
+                            Action
+                        </th>
+                    </tr>
+                </thead>
 
-              <tbody>
-                <tr
-                    v-for="transport in list_transports"
-                    :key="transport.id"
-                >
-                    <td>
-                        {{ transport.id }}
-                    </td>
-                    <td>
-                        {{ transport.user.full_name }}
-                    </td>
-                    <td>
-                        {{ transport.warehouse_start.name }}
-                    </td>
-                    <td>
-                        {{ transport.warehouse_end.name }}
-                    </td>
+                <tbody>
+                    <tr v-for="transport in list_transports" :key="transport.id">
+                        <td>
+                            {{ transport.id }}
+                        </td>
+                        <td>
+                            {{ transport.user.full_name }}
+                        </td>
+                        <td>
+                            {{ transport.warehouse_start.name }}
+                        </td>
+                        <td>
+                            {{ transport.warehouse_end.name }}
+                        </td>
 
-                    <td>
-                        {{ transport.date_emision }}
-                    </td>
-                    <td>
-                        <VChip color="error" v-if="transport.state == 1">
-                            Solicitud
-                        </VChip>
-                        <VChip color="warning" v-if="transport.state == 3">
-                            Salida
-                        </VChip>
-                        <VChip color="primary" v-if="transport.state == 6">
-                            Entregado
-                        </VChip>
-                    </td>
-                    <td>
-                        <div class="d-flex gap-1">
-                            <IconBtn
-                                size="small"
-                                @click="showPdf(transport)"
-                            >
-                                <VIcon icon="ri-file-pdf-2-line" />
-                            </IconBtn>
+                        <td>
+                            {{ transport.date_emision }}
+                        </td>
+                        <td>
+                            <VChip color="error" v-if="transport.state == 1">
+                                Solicitud
+                            </VChip>
+                            <VChip color="warning" v-if="transport.state == 3">
+                                Salida
+                            </VChip>
+                            <VChip color="primary" v-if="transport.state == 6">
+                                Entregado
+                            </VChip>
+                        </td>
+                        <td>
+                            <div class="d-flex gap-1">
+                                <IconBtn size="small" @click="showPdf(transport)">
+                                    <VIcon icon="ri-file-pdf-2-line" />
+                                </IconBtn>
 
-                            <IconBtn
-                                size="small"
-                                @click="editItem(transport)"
-                                v-if="isPermission('edit_transport')"
-                            >
-                                <VIcon icon="ri-pencil-line" />
-                            </IconBtn>
-                            <IconBtn
-                                size="small"
-                                v-if="transport.state < 3 && isPermission('delete_transport')"
-                                @click="deleteItem(transport)"
-                            >
-                                <VIcon icon="ri-delete-bin-line" />
-                            </IconBtn>
-                        </div>
-                    </td>
-                </tr>
-               </tbody>
+                                <IconBtn size="small" @click="editItem(transport)"
+                                    v-if="isPermission('edit_transport')">
+                                    <VIcon icon="ri-pencil-line" />
+                                </IconBtn>
+                                <IconBtn size="small" v-if="transport.state < 3 && isPermission('delete_transport')"
+                                    @click="deleteItem(transport)">
+                                    <VIcon icon="ri-delete-bin-line" />
+                                </IconBtn>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
             </VTable>
-            <VPagination
-                v-model="currentPage"
-                :length="totalPage"
-            />
+            <VPagination v-model="currentPage" :length="totalPage" />
         </VCard>
-        
-        <TransportDeleteDialog v-if="transport_selected_delete && isTransportDeleteDialogVisible" 
-        v-model:isDialogVisible="isTransportDeleteDialogVisible" 
-        :transportSelected="transport_selected_delete" 
-        @deleteTransport="addDeleteTransport"></TransportDeleteDialog>
+
+        <TransportDeleteDialog v-if="transport_selected_delete && isTransportDeleteDialogVisible"
+            v-model:isDialogVisible="isTransportDeleteDialogVisible" :transportSelected="transport_selected_delete"
+            @deleteTransport="addDeleteTransport"></TransportDeleteDialog>
     </div>
 </template>

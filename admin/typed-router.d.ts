@@ -35,6 +35,7 @@ declare module 'vue-router/auto-routes' {
     'product-edit-id': RouteRecordInfo<'product-edit-id', '/product/edit/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'product-list': RouteRecordInfo<'product-list', '/product/list', Record<never, never>, Record<never, never>>,
     'products': RouteRecordInfo<'products', '/products', Record<never, never>, Record<never, never>>,
+    'profile': RouteRecordInfo<'profile', '/profile', Record<never, never>, Record<never, never>>,
     'purchase-add': RouteRecordInfo<'purchase-add', '/purchase/add', Record<never, never>, Record<never, never>>,
     'purchase-edit-id': RouteRecordInfo<'purchase-edit-id', '/purchase/edit/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'purchase-list': RouteRecordInfo<'purchase-list', '/purchase/list', Record<never, never>, Record<never, never>>,
