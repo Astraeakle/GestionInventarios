@@ -59,7 +59,6 @@ declare module 'vue' {
     EcommerceTopReferralSources: typeof import('./src/components/inventory/dashboard/EcommerceTopReferralSources.vue')['default']
     EcommerceTotalVisits: typeof import('./src/components/inventory/dashboard/EcommerceTotalVisits.vue')['default']
     EcommerceWeeklySalesBg: typeof import('./src/components/inventory/dashboard/EcommerceWeeklySalesBg.vue')['default']
-    EditPurchaseDetailDialog: typeof import('./src/components/inventory/purchase/EditPurchaseDetailDialog.vue')['default']
     EnableOneTimePasswordDialog: typeof import('./src/components/dialogs/EnableOneTimePasswordDialog.vue')['default']
     ErrorHeader: typeof import('./src/components/ErrorHeader.vue')['default']
     I18n: typeof import('./src/@core/components/I18n.vue')['default']
@@ -94,7 +93,6 @@ declare module 'vue' {
     Shortcuts: typeof import('./src/@core/components/Shortcuts.vue')['default']
     SucursalAddDialog: typeof import('./src/components/inventory/configuration/sucursales/SucursalAddDialog.vue')['default']
     SucursalDeleteDialog: typeof import('./src/components/inventory/configuration/sucursales/SucursalDeleteDialog.vue')['default']
-    SucursalDeleteDIalog: typeof import('./src/components/inventory/configuration/sucursales/SucursalDeleteDIalog.vue')['default']
     SucursalEditDialog: typeof import('./src/components/inventory/configuration/sucursales/SucursalEditDialog.vue')['default']
     TheCustomizer: typeof import('./src/@core/components/TheCustomizer.vue')['default']
     ThemeSwitcher: typeof import('./src/@core/components/ThemeSwitcher.vue')['default']
@@ -121,6 +119,5 @@ declare module 'vue' {
     WarehouseEditDialog: typeof import('./src/components/inventory/configuration/warehouses/WarehouseEditDialog.vue')['default']
     WarehouseProductDeleteDialog: typeof import('./src/components/inventory/product/warehouses/WarehouseProductDeleteDialog.vue')['default']
     WarehouseProductEditDialog: typeof import('./src/components/inventory/product/warehouses/WarehouseProductEditDialog.vue')['default']
-    WarehousesAddDialog: typeof import('./src/components/inventory/configuration/warehouses/WarehousesAddDialog.vue')['default']
   }
 }
