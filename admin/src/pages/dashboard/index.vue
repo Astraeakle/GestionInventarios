@@ -99,9 +99,7 @@ onMounted(() => {
         <CardStatisticsWithImages2 v-bind="statistics" />
       </VCol>
 
-
-
-      <!-- 👉 Total Visits -->
+      <!-- 👉 Visitas totales -->
       <VCol cols="12" md="3" sm="6">
         <EcommerceTotalVisits />
       </VCol>
@@ -122,7 +120,6 @@ onMounted(() => {
       <VCol cols="12" md="6">
         <EcommerceTopReferralSources />
       </VCol>
-
 
     </VRow>
   </div>

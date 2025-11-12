@@ -239,29 +239,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <VCard
-    title="Categories most sales"
-    subtitle="Number of Sales"
-  >
+  <VCard title="Categorías más vendidas" subtitle="Número de ventas">
     <template #append>
       <VRow style="width: 350px;">
         <VCol cols="6">
-          <VSelect
-            :items="year_list"
-            placeholder="Select"
-            v-model="year_selected"
-            label="Año"
-          />
+          <VSelect :items="year_list" placeholder="Select" v-model="year_selected" label="Año" />
         </VCol>
         <VCol cols="6">
-          <VSelect
-            :items="month_list"
-            item-value="id"
-            item-title="name"
-            placeholder="Select"
-            v-model="month_selected"
-            label="Mes"
-          />
+          <VSelect :items="month_list" item-value="id" item-title="name" placeholder="Select" v-model="month_selected"
+            label="Mes" />
         </VCol>
       </VRow>
       <!-- <div class="me-n3 mt-n8">
@@ -270,31 +256,17 @@ onMounted(() => {
     </template>
 
     <VCardText class="pb-6">
-      <VSlideGroup
-        v-model="currentTab"
-        show-arrows
-        mandatory
-      >
-        <VSlideGroupItem
-          v-for="category in categories"
-          :key="category.name"
-          v-slot="{ isSelected, toggle }"
-          :value="category.name"
-        >
-          <div
-            :class="isSelected ? 'selected-category' : 'not-selected-category'"
+      <VSlideGroup v-model="currentTab" show-arrows mandatory>
+        <VSlideGroupItem v-for="category in categories" :key="category.name" v-slot="{ isSelected, toggle }"
+          :value="category.name">
+          <div :class="isSelected ? 'selected-category' : 'not-selected-category'"
             class="d-flex flex-column justify-center align-center cursor-pointer rounded-xl px-5 py-2 me-4"
-            style="block-size: 5.375rem;inline-size: 5.75rem;"
-            @click="categorieSelected(category)"
-          >
-            <VImg
-              v-bind="{
+            style="block-size: 5.375rem;inline-size: 5.75rem;" @click="categorieSelected(category)">
+            <VImg v-bind="{
                 src: category.imagen,
                 width: 58,
                 height: 58,
-              }"
-              alt="slide-img"
-            />
+              }" alt="slide-img" />
           </div>
         </VSlideGroupItem>
 
@@ -328,38 +300,22 @@ onMounted(() => {
           <th scope="col">
             NAME
           </th>
-          <th
-            scope="col"
-            class="text-end"
-          >
+          <th scope="col" class="text-end">
             STATUS
           </th>
-          <th
-            scope="col"
-            class="text-end"
-          >
+          <th scope="col" class="text-end">
             TOTAL SALES
           </th>
-          <th
-            scope="col"
-            class="text-end"
-          >
+          <th scope="col" class="text-end">
             N° SALES
           </th>
         </tr>
       </thead>
 
       <tbody>
-        <tr
-          v-for="product in products"
-          :key="product.product_id"
-        >
+        <tr v-for="product in products" :key="product.product_id">
           <td>
-            <VAvatar
-              rounded
-              :image="product.product_imagen"
-              size="34"
-            />
+            <VAvatar rounded :image="product.product_imagen" size="34" />
           </td>
 
           <td style="text-wrap: initial;">
@@ -368,13 +324,13 @@ onMounted(() => {
 
           <td class="text-end">
             <VChip color="primary" v-if="product.product_state_stock == 1">
-                DISPONIBLE
+              DISPONIBLE
             </VChip>
             <VChip color="warning" v-if="product.product_state_stock == 2">
-                POR AGOTAR
+              POR AGOTAR
             </VChip>
             <VChip color="error" v-if="product.product_state_stock == 3">
-                AGOTADO
+              AGOTADO
             </VChip>
           </td>
 
