@@ -81,102 +81,51 @@ const dialogVisibleUpdate = val => {
 </script>
 
 <template>
-  <VDialog
-    max-width="650"
-    :model-value="props.isDialogVisible"
-    @update:model-value="dialogVisibleUpdate"
-  >
+  <VDialog max-width="650" :model-value="props.isDialogVisible" @update:model-value="dialogVisibleUpdate">
     <VCard class="pa-sm-11 pa-3">
       <!-- 👉 dialog close btn -->
-      <DialogCloseBtn
-        variant="text"
-        size="default"
-        @click="onFormReset"
-      />
+      <DialogCloseBtn variant="text" size="default" @click="onFormReset" />
 
       <VCardText class="pt-5">
         <div class="text-center pb-6">
           <h4 class="text-h4 mb-2">
-            Add Unit
+            Agregar Unidad
           </h4>
         </div>
 
         <!-- 👉 Form -->
-        <VForm
-          class="mt-4"
-          @submit.prevent="store"
-        >
+        <VForm class="mt-4" @submit.prevent="store">
           <VRow>
             <!-- 👉 First Name -->
-            <VCol
-              cols="12"
-            >
-              <VTextField
-                v-model="name"
-                label="Nombre"
-                placeholder="Example: Caja"
-              />
+            <VCol cols="12">
+              <VTextField v-model="name" label="Nombre" placeholder="Example: Caja" />
             </VCol>
-            <VCol
-              cols="12"
-              v-if="warning"
-            >
-              <VAlert
-                closable
-                close-label="Close Alert"
-                color="warning"
-              >
-              {{ warning }}
+            <VCol cols="12" v-if="warning">
+              <VAlert closable close-label="Close Alert" color="warning">
+                {{ warning }}
               </VAlert>
             </VCol>
-            <VCol
-              cols="12"
-              v-if="error_exits"
-            >
-              <VAlert
-                closable
-                close-label="Close Alert"
-                color="error"
-              >
-              {{ error_exits }}
+            <VCol cols="12" v-if="error_exits">
+              <VAlert closable close-label="Close Alert" color="error">
+                {{ error_exits }}
               </VAlert>
             </VCol>
-            <VCol
-              cols="12"
-              v-if="success"
-            >
-              <VAlert
-                closable
-                close-label="Close Alert"
-                color="success"
-              >
-              {{ success }}
+            <VCol cols="12" v-if="success">
+              <VAlert closable close-label="Close Alert" color="success">
+                {{ success }}
               </VAlert>
             </VCol>
-            <VCol
-              cols="12"
-            >
-                <VTextarea
-                    v-model="description"
-                    label="Descripción: "
-                    placeholder=""
-                />
+            <VCol cols="12">
+              <VTextarea v-model="description" label="Descripción: " placeholder="" />
 
             </VCol>
             <!-- 👉 Submit and Cancel -->
-            <VCol
-              cols="12"
-              class="d-flex flex-wrap justify-center gap-4"
-            >
+            <VCol cols="12" class="d-flex flex-wrap justify-center gap-4">
               <VBtn type="submit">
                 Guardar
               </VBtn>
 
-              <VBtn
-                color="secondary"
-                variant="outlined"
-                @click="onFormReset"
-              >
+              <VBtn color="secondary" variant="outlined" @click="onFormReset">
                 Cancel
               </VBtn>
             </VCol>

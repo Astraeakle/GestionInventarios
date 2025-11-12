@@ -58,12 +58,6 @@ const update = async() => {
     }, 50);
     return;
   }
-  if(!surname.value){
-    setTimeout(() => {
-      warning.value = "Se debe llenar el apellido del cliente";
-    }, 50);
-    return;
-  }
   if(!phone.value){
     setTimeout(() => {
       warning.value = "Se debe llenar el telefono del cliente";
@@ -97,12 +91,6 @@ const update = async() => {
   if(!ubigeo_distrito.value){
     setTimeout(() => {
       warning.value = "Se debe debe seleccionar un distrito para el cliente";
-    }, 50);
-    return;
-  }
-  if(!address.value){
-    setTimeout(() => {
-      warning.value = "Se debe debe una dirección para el cliente";
     }, 50);
     return;
   }

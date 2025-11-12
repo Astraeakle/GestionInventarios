@@ -33,22 +33,31 @@ function isTokenExpired(token) {
 
 export const $api = ofetch.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
-  async onRequest(response) {
-    const accessToken = localStorage.getItem("token");//useCookie('accessToken').value
-    if(isTokenExpired(accessToken) && response.request != "auth/login"){
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      alert("EL TOKEN A EXPIRADO , INGRESE NUEVAMENTE");
-      setTimeout(() => {
-        window.location.reload();
-      }, 50);
+  async onRequest({ request, options }) {
+    const accessToken = localStorage.getItem("token");
+
+    // Verificar si el token ha expirado
+    if (isTokenExpired(accessToken) && !request.includes("auth/login")) {
+      // Evita múltiples alertas
+      if (!window.__tokenExpiredHandled) {
+        window.__tokenExpiredHandled = true;
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        alert("⚠️ Tu sesión ha expirado. Serás redirigido al login.");
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 800);
+      }
+      throw new Error("Token expirado");
     }
-    let options = response.options;
+
+    // Si hay token, añadirlo a los headers
     if (accessToken) {
       options.headers = {
         ...options.headers,
         Authorization: `Bearer ${accessToken}`,
-      }
+      };
     }
   },
-})
+});
+

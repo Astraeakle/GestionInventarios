@@ -108,37 +108,24 @@
 </script>
 <template>
     <div>
-        <VCard title="📦 Units">
+        <VCard title="📦 Unidades">
             <VCardText>
                 <VRow class="justify-space-between">
                     <VCol cols="3">
-                        <VTextField
-                            placeholder="Search Unit"
-                            density="compact"
-                            class="me-3"
-                            v-model="searchQuery"
-                            @keyup.enter="list"
-                        />
+                        <VTextField placeholder="Search Unit" density="compact" class="me-3" v-model="searchQuery"
+                            @keyup.enter="list" />
                     </VCol>
                     <VCol cols="2" class="text-end">
                         <VBtn @click="isUnitAddDialogVisible = !isUnitAddDialogVisible">
-                            Add Unit
-                            <VIcon
-                                end
-                                icon="ri-add-line"
-                            />
+                            Agregar unidad
+                            <VIcon end icon="ri-add-line" />
                         </VBtn>
                     </VCol>
                 </VRow>
             </VCardText>
-            <VDataTable
-                :headers="headers"
-                :items="list_units"
-                :items-per-page="5"
-                class="text-no-wrap"
-            >
+            <VDataTable :headers="headers" :items="list_units" :items-per-page="5" class="text-no-wrap">
                 <template #item.id="{ item }">
-                <span class="text-h6">{{ item.id }}</span>
+                    <span class="text-h6">{{ item.id }}</span>
                 </template>
                 <template #item.state="{ item }">
                     <VChip color="primary" v-if="item.state == 1">
@@ -150,22 +137,13 @@
                 </template>
                 <template #item.action="{ item }">
                     <div class="d-flex gap-1">
-                        <IconBtn
-                            size="small"
-                            @click="addConversion(item)"
-                        >
+                        <IconBtn size="small" @click="addConversion(item)">
                             <VIcon icon="ri-git-repository-commits-line" />
                         </IconBtn>
-                        <IconBtn
-                            size="small"
-                            @click="editItem(item)"
-                        >
+                        <IconBtn size="small" @click="editItem(item)">
                             <VIcon icon="ri-pencil-line" />
                         </IconBtn>
-                        <IconBtn
-                            size="small"
-                            @click="deleteItem(item)"
-                        >
+                        <IconBtn size="small" @click="deleteItem(item)">
                             <VIcon icon="ri-delete-bin-line" />
                         </IconBtn>
                     </div>
@@ -173,8 +151,14 @@
             </VDataTable>
         </VCard>
         <UnitAddDialog v-model:isDialogVisible="isUnitAddDialogVisible" @addUnit="addNewUnit"></UnitAddDialog>
-        <UnitEditDialog v-if="unit_selected_edit && isUnitEditDialogVisible" v-model:isDialogVisible="isUnitEditDialogVisible" :unitSelected="unit_selected_edit" @editUnit="addEditUnit"></UnitEditDialog>
-        <UnitDeleteDialog v-if="unit_selected_delete && isUnitDeleteDialogVisible" v-model:isDialogVisible="isUnitDeleteDialogVisible" :unitSelected="unit_selected_delete" @deleteUnit="addDeleteUnit"></UnitDeleteDialog>
-        <UnitConversionAddDialog v-if="unit_selected_conversion && isUnitConversionAddDialogVisible" v-model:isDialogVisible="isUnitConversionAddDialogVisible" :units="list_units" :unitSelected="unit_selected_conversion"></UnitConversionAddDialog>
+        <UnitEditDialog v-if="unit_selected_edit && isUnitEditDialogVisible"
+            v-model:isDialogVisible="isUnitEditDialogVisible" :unitSelected="unit_selected_edit"
+            @editUnit="addEditUnit"></UnitEditDialog>
+        <UnitDeleteDialog v-if="unit_selected_delete && isUnitDeleteDialogVisible"
+            v-model:isDialogVisible="isUnitDeleteDialogVisible" :unitSelected="unit_selected_delete"
+            @deleteUnit="addDeleteUnit"></UnitDeleteDialog>
+        <UnitConversionAddDialog v-if="unit_selected_conversion && isUnitConversionAddDialogVisible"
+            v-model:isDialogVisible="isUnitConversionAddDialogVisible" :units="list_units"
+            :unitSelected="unit_selected_conversion"></UnitConversionAddDialog>
     </div>
 </template>
