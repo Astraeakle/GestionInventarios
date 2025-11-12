@@ -79,3 +79,22 @@ El proyecto está completamente **dockerizado** para facilitar la instalación y
   docker compose down -v
   docker compose up -d --build
   ```
+
+  ---
+
+## ♨️ Iniciar
+
+* **Frontend**
+
+  ```bash
+  cd admin
+  pnpm run dev
+  ```
+
+* **Backend**
+
+  ```bash
+  cd api
+  php artisan serve
+  ```
+
