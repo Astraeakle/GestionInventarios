@@ -6,97 +6,125 @@ Este repositorio contiene un sistema completo de gestión de inventario, compues
 * **Base de datos** → PostgreSQL 16
 * **Frontend** → Vue 3 + Vite + pnpm
 
-El proyecto está completamente **dockerizado** para facilitar la instalación y ejecución en cualquier máquina sin configuraciones complicadas.
-
 ---
 
 ## 📂 Estructura del proyecto
 
 * `/api` → Código fuente del **backend** (Laravel)
 * `/admin` → Código fuente del **frontend** (Vue 3 + Vite)
-* `docker-compose.yml` → Configuración principal de Docker Compose
-* `inventario_backup.sql` → Backup que inicializa la base de datos automáticamente al primer arranque
+* `inventario_backup.sql` → Backup de base de datos usado para restauración inicial
 
 ---
 
 ## ✅ Requisitos previos
 
-* [Docker Desktop]([https://www.docker.com/products/docker-desktop/](https://www.docker.com)) (con **Docker Compose v2**)
-* (Opcional) [pnpm](https://pnpm.io/) para desarrollo local del frontend
+* PHP 8.2+
+* Composer
+* PostgreSQL 16
+* Node.js + pnpm
+* (Opcional) Docker Desktop si se usa contenedores
 
 ---
 
-## 🚀 Cómo levantar el proyecto con Docker
+## 🔐 Configuración del archivo `.env`
 
-1. **Clonar el repositorio**
+Dentro de `api/` existe un archivo `.env.example` que sirve como plantilla.
 
-   ```bash
-   git clone https://github.com/Astraeakle/GestionInventarios.git
-   cd GestionInventarios
-   ```
+### 1️⃣ Crear tu archivo `.env` desde el ejemplo
 
-2. **Levantar la aplicación con Docker**
+```bash
+cd api
+cp .env.example .env
+```
 
-   ```bash
-   docker compose up -d --build
-   ```
+### 2️⃣ Generar la APP_KEY requerida por Laravel
 
-   🔹 Esto construirá las imágenes, levantará los 3 servicios y restaurará automáticamente el backup de la base de datos (`inventario_backup.sql`).
+```bash
+php artisan key:generate
+```
 
-3. **Acceder a la aplicación**
+Esto rellenará automáticamente el valor:
 
-   * **Frontend (Vue)** → [http://localhost:5173](http://localhost:5173)
-   * **Backend API (Laravel)** → [http://localhost:8000](http://localhost:8000)
-   * **Base de datos (Postgres)** → `localhost:5432` (usuario: `postgres`, pass: `0000`)
+```
+APP_KEY=base64:xxxxxxxxxx
+```
+
+### 3️⃣ Generar el JWT_SECRET
+
+```bash
+php artisan jwt:secret
+```
+
+Esto generará la clave:
+
+```
+JWT_SECRET=xxxxxxxxxx
+```
+
+### 4️⃣ Crear el enlace simbólico para almacenar imágenes
+
+```bash
+php artisan storage:link
+```
 
 ---
 
 ## 🛠️ Comandos útiles
 
-* **Ver logs de un servicio**
+### Ver logs (solo si usas Docker)
 
-  ```bash
-  docker logs inventario_backend   # Laravel
-  docker logs inventario_frontend  # Vue
-  docker logs inventario_db        # PostgreSQL
-  ```
+```bash
+docker logs inventario_backend
+docker logs inventario_frontend
+docker logs inventario_db
+```
 
-* **Entrar al contenedor backend (Laravel)**
+### Entrar al contenedor del backend
 
-  ```bash
-  docker exec -it inventario_backend bash
-  ```
+```bash
+docker exec -it inventario_backend bash
+```
 
-* **Ejecutar migraciones manualmente (si hicieras cambios futuros)**
+### Ejecutar migraciones
 
-  ```bash
-  php artisan migrate
-  ```
+```bash
+php artisan migrate
+```
 
-* **Reiniciar todo desde cero (incluyendo la BD)**
+### Reiniciar todo desde cero (Docker)
 
-  ```bash
-  docker compose down -v
-  docker compose up -d --build
-  ```
+```bash
+docker compose down -v
+docker compose up -d --build
+```
 
-  ---
+---
 
-## ♨️ Iniciar
+## ♨️ Iniciar el proyecto (Modo desarrollo)
 
-* **Frontend**
-La primera vez se ejecuta pnpm install
-  ```bash
-  cd admin
-  pnpm install
-  pnpm run dev
-  ```
+### 🔹 Frontend
 
-* **Backend**
-La primera vez se ejecuta composer install
-  ```bash
-  cd api
-  composer install
-  php artisan serve
-  ```
+La primera vez debes instalar dependencias:
 
+```bash
+cd admin
+pnpm install
+pnpm run dev
+```
+
+### 🔹 Backend
+
+Instalar dependencias:
+
+```bash
+cd api
+composer install
+```
+
+Iniciar servidor:
+
+```bash
+php artisan serve
+```
+
+---
