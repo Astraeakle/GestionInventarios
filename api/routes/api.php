@@ -1,5 +1,5 @@
 <?php
- 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Kpi\KpiController;
@@ -25,7 +25,7 @@ use App\Http\Controllers\Config\ProductCategorieController;
 use App\Http\Controllers\Purchase\PurchaseDetailController;
 use App\Http\Controllers\Product\ProductWarehouseController;
 use App\Http\Controllers\Transport\TransportDetailController;
- 
+
 Route::group([
     // 'middleware' => 'api',
     'prefix' => 'auth',
@@ -41,7 +41,7 @@ Route::group([
 Route::group([
     "middleware" => ["auth:api"]
 ],function($router) {
-    
+
     Route::resource("role",RoleController::class);
 
     Route::get("users/config",[UserController::class,'config']);
@@ -51,7 +51,7 @@ Route::group([
     Route::group(['middleware' => ['permission:settings']],function() {
         Route::resource("sucursales",SucursalController::class);
         Route::resource("warehouses",WarehouseController::class);
-        Route::post("categories/{id}",[ProductCategorieController::class,'update']);
+        Route::match(['put', 'post'], 'categories/{id}', [ProductCategorieController::class, 'update']);
         Route::resource("categories",ProductCategorieController::class);
         Route::post("providers/{id}",[ProviderController::class,'update']);
         Route::resource("providers",ProviderController::class);
@@ -123,8 +123,22 @@ Route::group([
         Route::post("categories_most_sales",[KpiController::class,"categories_most_sales"]);
     });
 });
+
 Route::get("/products-excel",[ProductController::class,'download_excel']);
 Route::get("/sales-excel",[SaleController::class,'download_excel']);
 Route::get("/sales-pdf/{id}",[SaleController::class,'sale_pdf']);
 Route::get("/purchase-pdf/{id}",[PurchaseController::class,'sale_pdf']);
 Route::get("transport-pdf/{id}",[TransportController::class,'transport_pdf']);
+
+Route::get('/image/{filename}', function ($filename) {
+    $path = 'C:\Users\Solaris\Documents\Solaris\GestionInventarios\imagenes\\' . $filename;
+
+    if (!file_exists($path)) {
+        abort(404, 'Imagen no encontrada');
+    }
+
+    // Opcional: puedes forzar encabezado de tipo imagen
+    return response()->file($path, [
+        'Content-Type' => mime_content_type($path),
+    ]);
+});

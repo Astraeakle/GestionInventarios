@@ -98,7 +98,9 @@ const dialogVisibleUpdate = val => {
 onMounted(() => {
   name.value = props.categorieSelected.title;
   state.value = props.categorieSelected.state;
-  PREVIZUALIZA_IMAGEN.value = props.categorieSelected.imagen;  
+  PREVIZUALIZA_IMAGEN.value = props.categorieSelected.imagen
+    ? props.categorieSelected.imagen + '?t=' + new Date().getTime()
+    : null;  
 })
 </script>
 

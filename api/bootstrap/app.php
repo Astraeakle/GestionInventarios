@@ -5,6 +5,8 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
+use Intervention\Image\Laravel\Facades\Image;
+
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
