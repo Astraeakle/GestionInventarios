@@ -85,16 +85,18 @@ El proyecto está completamente **dockerizado** para facilitar la instalación y
 ## ♨️ Iniciar
 
 * **Frontend**
-
+La primera vez se ejecuta pnpm install
   ```bash
   cd admin
+  pnpm install
   pnpm run dev
   ```
 
 * **Backend**
-
+La primera vez se ejecuta composer install
   ```bash
   cd api
+  composer install
   php artisan serve
   ```
 
