@@ -28,14 +28,13 @@ Este repositorio contiene un sistema completo de gestión de inventario, compues
 
 ## 🔐 Configuración del archivo `.env`
 
-Dentro de `api/` existe un archivo `.env.example` que sirve como plantilla.
+Dentro de `api/` y `admin/` existe un archivo `.env.example` que sirve como plantilla.
 
-### 1️⃣ Crear tu archivo `.env` desde el ejemplo
+### 1️⃣ Crear tu archivo `.env`
 
-```bash
-cd api
-cp .env.example .env
-```
+Simplemente **renombra el archivo**:
+
+.env.example → .env
 
 ### 2️⃣ Generar la APP_KEY requerida por Laravel
 
