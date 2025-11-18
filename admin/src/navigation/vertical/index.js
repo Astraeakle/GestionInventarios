@@ -122,7 +122,7 @@ export default [
       },
     ],
   },
-  {
+  /*{
     title: 'Transporte',
     icon: { icon: 'ri-translate' },
     children: [
@@ -139,7 +139,7 @@ export default [
         icon: { icon: 'ri-radio-button-line' },
       },
     ],
-  },
+  },*/
   {
     title: 'Conversión',
     icon: { icon: 'ri-file-ppt-2-line' },
