@@ -31,10 +31,10 @@ const information_general = async () => {
         color: 'success',
         icon: 'ri-handbag-line',
         stats: resp.sucursales_most_sales_month_current ? 'S/. ' + resp.sucursales_most_sales_month_current.total_sales : 0,
-        change: resp.variation_percentage_sucursal_most_sale,
+        change: resp.variation_percentage_sucursal_most_sPale,
       },
       {
-        title: 'Total Purchase',
+        title: 'Total Compras',
         color: 'secondary',
         icon: 'ri-truck-line',
         stats: 'S/. ' + resp.purchase_total_month_current,

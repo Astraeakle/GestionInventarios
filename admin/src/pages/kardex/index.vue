@@ -399,22 +399,23 @@
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: rgba(242, 242, 242, 0.089); /* gris claro con transparencia */
 }
 
 .new-row td {
-    background-color: #f2f2f2;
+    background-color: rgba(242, 242, 242, 0.171);
 }
 
 .entrada {
-    background-color: #d4edda;
+    background-color: rgba(68, 241, 109, 0.685); /* verde suave */
 }
 
 .salida {
-    background-color: #f8d7da;
+    background-color: rgba(255, 57, 74, 0.658); /* rojo suave */
 }
 
 .existencias {
-    background-color: #fff3cd;
+    background-color: rgba(255, 218, 96, 0.692); /* amarillo suave */
 }
+
 </style>

@@ -33,7 +33,7 @@ onMounted(() => {
           <span class="text-high-emphasis">🎉</span>
         </h5>
         <div class="text-subtitle-1">
-          El mejor vendedor del mes
+          El mejor cliente del mes
         </div>
       </div>
       <h4 class="text-h4 text-primary">

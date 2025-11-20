@@ -96,16 +96,16 @@ export default [
         icon: { icon: 'ri-radio-button-line' },
       },
     ],
-  },
+  },/*
   {
     title: 'Devolución',
     icon: { icon: 'ri-loop-right-line' },
     permission: 'return',
     to: 'refound-list',
-  },
+  },*/
   { heading: 'Almacen',permissions: ['register_purchase','list_purchase','register_transport','list_transport','conversions','kardex'] },
   {
-    title: 'Compras',
+    title: 'Inventario',
     icon: { icon: 'ri-box-3-line' },
     children: [
       {
@@ -139,13 +139,13 @@ export default [
         icon: { icon: 'ri-radio-button-line' },
       },
     ],
-  },*/
+  },
   {
     title: 'Conversión',
     icon: { icon: 'ri-file-ppt-2-line' },
     permission: 'conversions',
     to: 'conversion-list',
-  },
+  },*/
   {
     title: 'Kardex',
     to: { name: 'kardex' },
