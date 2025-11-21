@@ -19,6 +19,7 @@ class Purchase extends Model
         "user_id",
         "sucursale_id",
         "date_emision",
+        "date_entrega", 
         "state",
         "type_comprobant",
         "n_comprobant",
@@ -27,6 +28,11 @@ class Purchase extends Model
         "importe",
         "igv",
         "description"
+        
+    ];
+    protected $casts = [
+        'date_emision' => 'datetime',
+        'date_entrega' => 'datetime', // ← NECESARIO
     ];
 
     public function setCreatedAtAttribute($value)

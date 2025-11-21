@@ -595,7 +595,7 @@ table tr td:last-child {
 
     <tr>
         <td>
-           FECHA DE ENTREGA:  <?php echo e($purchase->created_at->addDays(3)->format("Y/m/d")); ?>
+           FECHA DE ENTREGA:  <?php echo e($purchase->date_entrega->format("Y/m/d")); ?>
 
         </td>
         <td>

@@ -592,7 +592,7 @@ table tr td:last-child {
 
     <tr>
         <td>
-           FECHA DE ENTREGA:  {{$purchase->created_at->addDays(3)->format("Y/m/d")}}
+           FECHA DE ENTREGA:  {{$purchase->date_entrega->format("Y/m/d")}}
         </td>
         <td>
             
