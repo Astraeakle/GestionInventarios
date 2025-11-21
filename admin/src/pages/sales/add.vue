@@ -350,8 +350,13 @@ const reportDetail = () => {
         , 0);// + Number(sale_detail.igv)
 
     // 4. EL TOTAL
-
     total_all.value = sale_details.value.reduce((sum, sale_detail) => sum + Number(sale_detail.total), 0);
+
+    // Force 2 decimals on totals to avoid floating point comparison issues
+    igv_total.value = Number(igv_total.value ? igv_total.value.toFixed(2) : 0);
+    discount_total.value = Number(discount_total.value ? discount_total.value.toFixed(2) : 0);
+    subtotal_original.value = Number(subtotal_original.value ? subtotal_original.value.toFixed(2) : 0);
+    total_all.value = Number(total_all.value ? total_all.value.toFixed(2) : 0);
 
 }
 const deleteDetail = (index) => {
@@ -411,7 +416,8 @@ const deletePayment = (index) => {
 }
 
 const paymentTotal = () => {
-    payment_total.value = payments.value.reduce((sum, payment) => sum + payment.amount, 0);
+    payment_total.value = payments.value.reduce((sum, payment) => sum + Number(payment.amount), 0);
+    payment_total.value = Number(payment_total.value ? payment_total.value.toFixed(2) : 0);
 }
 const cleanFieldPayment = () => {
     method_payment.value = '';

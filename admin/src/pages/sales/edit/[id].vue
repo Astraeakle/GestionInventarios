@@ -384,6 +384,11 @@ const reportDetail = () => {
     // 4. EL TOTAL
 
     total_all.value = sale_details.value.reduce((sum, sale_detail) => sum + Number(sale_detail.total), 0);
+    // Force 2 decimals on totals to avoid floating point comparison issues
+    igv_total.value = Number(igv_total.value ? igv_total.value.toFixed(2) : 0);
+    discount_total.value = Number(discount_total.value ? discount_total.value.toFixed(2) : 0);
+    subtotal_original.value = Number(subtotal_original.value ? subtotal_original.value.toFixed(2) : 0);
+    total_all.value = Number(total_all.value ? total_all.value.toFixed(2) : 0);
 
 }
 const deleteDetail = (sale_detail, index) => {
@@ -495,6 +500,7 @@ const paymentDelete = (DATA) => {
 
 const paymentTotal = () => {
     payment_total.value = payments.value.reduce((sum, payment) => sum + Number(payment.amount), 0);
+    payment_total.value = Number(payment_total.value ? payment_total.value.toFixed(2) : 0);
 }
 const cleanFieldPayment = () => {
     method_payment.value = '';
@@ -606,13 +612,15 @@ const show = async () => {
         search_client.value = client_selected.value.full_name;
         date_emision.value = resp.sale.created_at;
         sale_details.value = resp.sale.sale_details;
-        discount_total.value = resp.sale.discount;
-        igv_total.value = resp.sale.igv;
-        subtotal_original.value = resp.sale.subtotal;
-        total_all.value = resp.sale.total;
+
+        // Use numeric values rounded to 2 decimals to avoid floating precision issues
+        discount_total.value = Number(resp.sale.discount ? Number(resp.sale.discount).toFixed(2) : 0);
+        igv_total.value = Number(resp.sale.igv ? Number(resp.sale.igv).toFixed(2) : 0);
+        subtotal_original.value = Number(resp.sale.subtotal ? Number(resp.sale.subtotal).toFixed(2) : 0);
+        total_all.value = Number(resp.sale.total ? Number(resp.sale.total).toFixed(2) : 0);
 
         payments.value = resp.sale.payments;
-        payment_total.value = resp.sale.paid_out;
+        payment_total.value = Number(resp.sale.paid_out ? Number(resp.sale.paid_out).toFixed(2) : 0);
         description.value = resp.sale.description;
         selectedRadio.value = resp.sale.state_sale + "";
 
@@ -893,19 +901,19 @@ definePage({ meta: { permission: 'edit_sale', } });
                         <table style="width: 100%;">
                             <tr>
                                 <td>Impuestos</td>
-                                <td>S/. {{ igv_total }}</td>
+                                <td>S/. {{ Number(igv_total).toFixed(2) }}</td>
                             </tr>
                             <tr>
                                 <td>Descuento</td>
-                                <td>S/. {{ discount_total }}</td>
+                                <td>S/. {{ Number(discount_total).toFixed(2) }}</td>
                             </tr>
                             <tr>
                                 <td>SubTotal</td>
-                                <td>S/. {{ subtotal_original }}</td>
+                                <td>S/. {{ Number(subtotal_original).toFixed(2) }}</td>
                             </tr>
                             <tr>
                                 <td>Total</td>
-                                <td>S/. {{ total_all }}</td>
+                                <td>S/. {{ Number(total_all).toFixed(2) }}</td>
                             </tr>
                         </table>
                     </VCol>

@@ -31,6 +31,13 @@ class SaleDetail extends Model
         // "created_at",
         // "updated_at",
     ];
+    protected $casts = [
+        "price_unit" => "decimal:2",
+        "discount" => "decimal:2",
+        "subtotal" => "decimal:2",
+        "igv" => "decimal:2",
+        "total" => "decimal:2",
+    ];
     public function setCreatedAtAttribute($value)
     {
     	date_default_timezone_set('America/Lima');

@@ -47,10 +47,11 @@ class SaleSeeder extends Seeder
                     "created_at" => $sale->created_at,
                     "updated_at" => $sale->updated_at,
                 ]);
-                $sum_total_sale += $sale_detail->total;
-                $igv_total += $sale_detail->igv;
-                $discount_total += $sale_detail->discount;
-                $sum_sub_total_sale += ($sale_detail->price_unit * $sale_detail->quantity);
+                $sum_total_sale      = round($sum_total_sale + $sale_detail->total, 2);
+                $igv_total           = round($igv_total + $sale_detail->igv, 2);
+                $discount_total      = round($discount_total + $sale_detail->discount, 2);
+                $sum_sub_total_sale  = round($sum_sub_total_sale + ($sale_detail->price_unit * $sale_detail->quantity), 2);
+
             }
 
             $sale = Sale::findOrFail($sale->id);
@@ -80,7 +81,7 @@ class SaleSeeder extends Seeder
                                             'TRANSFERENCIA',
                                             'YAPE',
                                             'PLIN']),
-                        "amount" => $sum_total_sale,
+                        "amount" => round($sum_total_sale, 2),
                         "created_at" => $sale->created_at,
                         "updated_at" => $sale->updated_at,           
                     ]);
@@ -91,12 +92,12 @@ class SaleSeeder extends Seeder
             $n_days_v = $faker->randomElement([2,3,4,5,14,15]);
             $debt = $sum_total_sale - ($sale_payment ? $sale_payment->amount : 0);
             $sale->update([
-                "subtotal" => $sum_sub_total_sale,
-                "total" => $sum_total_sale,
-                "igv" => $igv_total,
-                "debt" => $debt,
-                "discount" => $discount_total,
-                "paid_out" => ($sale_payment ? $sale_payment->amount : 0),
+                "subtotal" => round($sum_sub_total_sale, 2),
+                "total" => round($sum_total_sale, 2),
+                "igv" => round($igv_total, 2),
+                "debt" => round($debt, 2),
+                "discount" => round($discount_total, 2),
+                "paid_out" => round(($sale_payment ? $sale_payment->amount : 0), 2),
                 "state_payment" => $state_complete,
                 "date_validation" => $sale->state_sale == 1 ? Carbon::parse($sale->created_at)->addDay(1) : NULL,
                 "date_pay_complete" => $state_complete == 3 ? Carbon::parse($sale->created_at)->addDay($n_days_v) : NULL,

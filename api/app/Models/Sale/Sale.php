@@ -36,6 +36,14 @@ class Sale extends Model
         // "created_at",
         // "updated_at",
     ];
+    protected $casts = [
+        "subtotal" => "decimal:2",
+        "total" => "decimal:2",
+        "igv" => "decimal:2",
+        "debt" => "decimal:2",
+        "paid_out" => "decimal:2",
+        "discount" => "decimal:2",
+    ];
     
     public function setCreatedAtAttribute($value)
     {

@@ -18,6 +18,9 @@ class SalePayment extends Model
         // "created_at",
         // "updated_at",
     ];
+    protected $casts = [
+        "amount" => "decimal:2",
+    ];
 
     public function setCreatedAtAttribute($value)
     {

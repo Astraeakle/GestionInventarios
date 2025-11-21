@@ -18,22 +18,29 @@ class SalePaymentController extends Controller
         // METODO DE PAGO method_payment
         // EL MONTO amount
         // EL ID DE LA VENTA sale_id
+        // Forzar monto a 2 decimales y usar bcmath para operaciones exactas
+        $amount = number_format((float)$request->amount, 2, '.', '');
+
         $sale_payment = SalePayment::create([
             "sale_id" => $request->sale_id,
             "method_payment" => $request->method_payment,
-            "amount" => $request->amount,
+            "amount" => $amount,
         ]);
 
         $sale = Sale::findOrFail($request->sale_id);
 
+        // use bcsub/bcadd to avoid floating point precision issues
+        $new_debt = bcsub((string)$sale->debt, (string)$sale_payment->amount, 2);
+        $new_paid_out = bcadd((string)$sale->paid_out, (string)$sale_payment->amount, 2);
+
         $sale->update([
-            "debt" => $sale->debt - $sale_payment->amount, // MONTO ADEUDADO
-            "paid_out" => $sale->paid_out + $sale_payment->amount, // MONTO PAGADO
+            "debt" => $new_debt, // MONTO ADEUDADO
+            "paid_out" => $new_paid_out, // MONTO PAGADO
         ]);
         date_default_timezone_set('America/Lima');
         $state_payment = $sale->state_payment;
         $date_pay_complete = $sale->date_pay_complete;
-        if($sale->debt == 0){
+        if(bccomp((string)$sale->debt, '0', 2) == 0){
             $state_payment = 3;
             $date_pay_complete = now();
         }
@@ -46,9 +53,9 @@ class SalePaymentController extends Controller
             "payment" => [
                 "id" => $sale_payment->id,
                 "method_payment" =>  $sale_payment->method_payment,
-                "amount" =>  $sale_payment->amount,
+                "amount" =>  number_format((float)$sale_payment->amount, 2, '.', ''),
             ],
-            "payment_total" => $sale->paid_out,
+            "payment_total" => number_format((float)$sale->paid_out, 2, '.', ''),
         ]);
     }
 
@@ -61,10 +68,16 @@ class SalePaymentController extends Controller
         // EL MONTO amount
         // EL ID DE LA VENTA sale_id
         $sale_payment = SalePayment::findOrFail($id);
-        $amount_old = $sale_payment->amount;
+        $amount_old = number_format((float)$sale_payment->amount, 2, '.', '');
+        $amount_new = number_format((float)$request->amount, 2, '.', '');
         $sale = Sale::findOrFail($request->sale_id);
-        
-        if((($sale->paid_out - $sale_payment->amount) + $request->amount) > $sale->total ){
+
+        // calcular nuevo paid_out usando bcmath
+        $paid_out_minus_old = bcsub((string)$sale->paid_out, (string)$amount_old, 2);
+        $new_paid_out = bcadd($paid_out_minus_old, (string)$amount_new, 2);
+
+        // si el nuevo paid_out supera el total de la venta -> error
+        if(bccomp($new_paid_out, (string)$sale->total, 2) == 1){
             return response()->json([
                 "message" => 403,
                 "message_text" => "NO PUEDES INGRESAR UN MONTO, PORQUE SUPERA AL TOTAL DE LA VENTA"
@@ -73,23 +86,24 @@ class SalePaymentController extends Controller
 
         $sale_payment->update([
             "method_payment" => $request->method_payment,
-            "amount" => $request->amount,
+            "amount" => $amount_new,
         ]);
 
+        $new_debt = bcsub((string)$sale->total, (string)$new_paid_out, 2);
 
         $sale->update([
-            "paid_out" => ($sale->paid_out - $amount_old) + $sale_payment->amount, // MONTO PAGADO
-            "debt" => $sale->total - (($sale->paid_out - $amount_old) + $sale_payment->amount), // MONTO ADEUDADO
+            "paid_out" => $new_paid_out, // MONTO PAGADO
+            "debt" => $new_debt, // MONTO ADEUDADO
         ]);
         date_default_timezone_set('America/Lima');
         $state_payment = $sale->state_payment;
         $date_pay_complete = $sale->date_pay_complete;
-        if($sale->debt == 0){
+        if(bccomp((string)$sale->debt, '0', 2) == 0){
             $state_payment = 3;
             $date_pay_complete = now();
         }
         // AÑADIR
-        if($sale->debt > 0 && $sale->paid_out > 0){
+        if(bccomp((string)$sale->debt, '0', 2) == 1 && bccomp((string)$sale->paid_out, '0', 2) == 1){
             $state_payment = 2;
             $date_pay_complete = null;
         }
@@ -103,9 +117,9 @@ class SalePaymentController extends Controller
             "payment" => [
                 "id" => $sale_payment->id,
                 "method_payment" =>  $sale_payment->method_payment,
-                "amount" =>  $sale_payment->amount,
+                "amount" =>  number_format((float)$sale_payment->amount, 2, '.', ''),
             ],
-            "payment_total" => $sale->paid_out,
+            "payment_total" => number_format((float)$sale->paid_out, 2, '.', ''),
         ]);
     }
 
@@ -117,16 +131,24 @@ class SalePaymentController extends Controller
         $sale_payment = SalePayment::findOrFail($id);
         $sale = $sale_payment->sale;
         $sale_payment->delete();
+        $amount_del = number_format((float)$sale_payment->amount, 2, '.', '');
+
+        $new_paid_out = bcsub((string)$sale->paid_out, (string)$amount_del, 2);
+        $new_debt = bcsub((string)$sale->total, (string)$new_paid_out, 2);
 
         $sale->update([
-            "paid_out" => ($sale->paid_out) - $sale_payment->amount, // MONTO PAGADO
-            "debt" => ($sale->paid_out + $sale_payment->amount), // MONTO ADEUDADO
+            "paid_out" => $new_paid_out, // MONTO PAGADO
+            "debt" => $new_debt, // MONTO ADEUDADO
         ]);
         date_default_timezone_set('America/Lima');
         $state_payment = 2;
         $date_pay_complete = null;
-        if($sale->paid_out == 0){
+        if(bccomp((string)$sale->paid_out, '0', 2) == 0){
             $state_payment = 1;
+        }
+        if(bccomp((string)$sale->paid_out, (string)$sale->total, 2) == 0){
+            $state_payment = 3;
+            $date_pay_complete = now();
         }
         $sale->update([
             "state_payment" => $state_payment,
@@ -137,9 +159,9 @@ class SalePaymentController extends Controller
             "payment" => [
                 "id" => $sale_payment->id,
                 "method_payment" =>  $sale_payment->method_payment,
-                "amount" =>  $sale_payment->amount,
+                "amount" =>  number_format((float)$sale_payment->amount, 2, '.', ''),
             ],
-            "payment_total" => $sale->paid_out,
+            "payment_total" => number_format((float)$sale->paid_out, 2, '.', ''),
         ]);
     }
 }
