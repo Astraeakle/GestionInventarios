@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Purchase;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Purchase\Purchase;
 use App\Http\Controllers\Controller;
 use App\Models\Purchase\PurchaseDetail;
@@ -52,9 +53,18 @@ class PurchaseDetailController extends Controller
             $state = 2;
         }
 
-        $purchase->update([
-            "state" => $state,
-        ]);
+        if($state != 1){
+            DB::table('purchases')->where('id',$purchase->id)->update([
+                "state" => $state,
+                "date_entrega" => now(),
+                "updated_at" => now(),
+            ]);
+        }else{
+            DB::table('purchases')->where('id',$purchase->id)->update([
+                "state" => $state,
+                "updated_at" => now(),
+            ]);
+        }
 
         return response()->json([
             "purchase_detail" => [

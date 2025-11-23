@@ -92,6 +92,7 @@ class PurchaseController extends Controller
             "user_id" => auth('api')->user()->id,
             "sucursale_id" => auth('api')->user()->sucursale_id,
             "date_emision" => $request->date_emision,
+            "date_entrega" => $request->date_entrega,
             "type_comprobant" => $request->type_comprobant,
             "n_comprobant" => $request->n_comprobant,
             "provider_id" => $request->provider_id,
@@ -144,6 +145,7 @@ class PurchaseController extends Controller
             "provider_id" => $request->provider_id,
             "type_comprobant" => $request->type_comprobant,
             "n_comprobant" => $request->n_comprobant,
+            "date_entrega" => $request->date_entrega,
             "description" => $request->description,
         ]);
 
