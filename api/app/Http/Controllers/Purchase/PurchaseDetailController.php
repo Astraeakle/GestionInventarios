@@ -19,6 +19,14 @@ class PurchaseDetailController extends Controller
 
         $purchase = Purchase::findOrFail($purchase_id);
         $purchase_detail = PurchaseDetail::findOrFail($purchase_detail_id);
+        // Evitar procesar la misma entrega más de una vez
+        if($purchase_detail->state != 1){
+            return response()->json([
+                "message" => 403,
+                "message_text" => "NO SE PUEDE ATENDER ESTE DETALLADO PORQUE YA SE HA ENTREGADO"
+            ]);
+        }
+
         date_default_timezone_set('America/Lima');
         $purchase_detail->update([
             "state" => 2,

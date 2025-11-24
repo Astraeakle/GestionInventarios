@@ -124,8 +124,8 @@ class SaleController extends Controller
         $state_entrega = $request->state_entrega;
         $state_payment = $request->state_payment;
         $search_product = $request->search_product;
-
-        $sales = Sale::filterAdvance($search,$type_client,$search_client,$start_date,$end_date,$type,$state_entrega,$state_payment,$search_product)
+        $user = auth('api')->user();
+        $sales = Sale::filterAdvance($search,$type_client,$search_client,$start_date,$end_date,$type,$state_entrega,$state_payment,$search_product,$user)
                     ->orderBy("id","desc")
                     ->get();
         

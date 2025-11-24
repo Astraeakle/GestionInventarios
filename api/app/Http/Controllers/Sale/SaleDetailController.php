@@ -184,12 +184,13 @@ class SaleDetailController extends Controller
 
         return response()->json([
             "detail" => SaleDetailResource::make($sale_detail),
-            "discount" => round($sale->discount, 2),
-            "igv" => round($sale->igv, 2),
-            "subtotal" => round($sale->subtotal, 2),
-            "total" => round($sale->total, 2),
-            "debt" => round($sale->debt, 2),
+            "discount" => round((float) ($sale->discount ?? 0), 2),
+            "igv" => round((float) ($sale->igv ?? 0), 2),
+            "subtotal" => round((float) ($sale->subtotal ?? 0), 2),
+            "total" => round((float) ($sale->total ?? 0), 2),
+            "debt" => round((float) ($sale->debt ?? 0), 2),
         ]);
+
     }
 
     /**
@@ -246,11 +247,11 @@ class SaleDetailController extends Controller
         return response()->json([
             "message" => 200,
             "sale_detail_id" => $id,
-            "discount" => round($sale->discount, 2),
-            "igv" => round($sale->igv, 2),
-            "subtotal" => round($sale->subtotal, 2),
-            "total" => round($sale->total, 2),
-            "debt" => round($sale->debt, 2),
+            "discount" => round((float) ($sale->discount ?? 0), 2),
+            "igv" => round((float) ($sale->igv ?? 0), 2),
+            "subtotal" => round((float) ($sale->subtotal ?? 0), 2),
+            "total" => round((float) ($sale->total ?? 0), 2),
+            "debt" => round((float) ($sale->debt ?? 0), 2),
         ]);
     }
 }

@@ -30,7 +30,9 @@ const information_general = async () => {
         title: resp.sucursales_most_sales_month_current ? resp.sucursales_most_sales_month_current.sucursale_most_sales : 'No hay una sucursal',
         color: 'success',
         icon: 'ri-handbag-line',
-        stats: resp.sucursales_most_sales_month_current ? 'S/. ' + resp.sucursales_most_sales_month_current.total_sales : 0,
+        stats: resp.sucursales_most_sales_month_current 
+              ? 'S/. ' + Number(resp.sucursales_most_sales_month_current.total_sales).toFixed(2) 
+              : 'S/. 0',
         change: resp.variation_percentage_sucursal_most_sPale,
       },
       {

@@ -99,8 +99,8 @@ class SaleSeeder extends Seeder
                 "discount" => round($discount_total, 2),
                 "paid_out" => round(($sale_payment ? $sale_payment->amount : 0), 2),
                 "state_payment" => $state_complete,
-                "date_validation" => $sale->state_sale == 1 ? Carbon::parse($sale->created_at)->addDay(1) : NULL,
-                "date_pay_complete" => $state_complete == 3 ? Carbon::parse($sale->created_at)->addDay($n_days_v) : NULL,
+                "date_validation" => $sale->state_sale == 1 ? $sale->created_at : NULL,
+                "date_pay_complete" => $state_complete == 3 ? $sale->created_at : NULL,
             ]);
             
         });
